@@ -1,0 +1,16 @@
+.time-stone {
+  width: 200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.time-stone_btn {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
+.time-stone_btn-receive {
+  margin-left: 20px;
+}
