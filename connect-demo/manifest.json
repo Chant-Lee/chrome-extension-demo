@@ -1,0 +1,23 @@
+{
+  "name": "MessageDemo",
+  "manifest_version": 2,
+  "version": "1.0",
+  "description": "MessageDemo 扩展程序",
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_title": "MessageDemo 通信",
+    "default_popup": "html/home.html"
+  },
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content-script.js"]
+    }
+  ],
+  "options_page": "html/options.html",
+  "homepage_url": "https://juejin.im/user/5940a1d2fe88c2006a44b609",
+  "permissions": ["tabs", "activeTab", "declarativeContent"]
+}
