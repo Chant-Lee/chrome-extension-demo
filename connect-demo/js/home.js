@@ -7,6 +7,30 @@ function getCurrentTabId(callback) {
   })
 }
 
+// 接收来自 content-script 或者 background 的消息
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(
+    '收到来自 ' +
+      (sender.tab
+        ? 'content-script(' + sender.tab.url + ')'
+        : 'content 或者 background') +
+      ' 的消息：',
+    request
+  )
+  if ((request.name = 'changeColor')) {
+    console.log('改变颜色')
+  }
+})
+
+// 向content-script主动发送消息
+function sendMessageToContentScript(message, callback) {
+  getCurrentTabId((tabId) => {
+    chrome.tabs.sendMessage(tabId, message, function (response) {
+      if (callback) callback(response)
+    })
+  })
+}
+
 // 插件会先加载用户上次选择的颜色，如果存在的话。
 document.addEventListener('DOMContentLoaded', () => {
   // 建立长连接
@@ -30,5 +54,16 @@ function connectContentScriptLong() {
       else if (msg.question == 'Madame who?')
         port.postMessage({ answer: 'Madame... Bovary' })
     })
+  })
+}
+
+/**
+ * 插入 js 文件
+ * 注意是从根目录寻找文件地址
+ */
+function insertScriptFile() {
+  getCurrentTabId((tabId) => {
+    chrome.tabs.executeScript(tabId, { file: 'js/[name].js' })
+    chrome.tabs.insertCSS(tabId, { file: 'css/[name]].css' })
   })
 }
